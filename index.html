@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Social Auth Page</title>
+</head>
+<body>
+	<h1>Click a button to authenticate with a social provider</h1>
+	<button id="googleBtn" onclick="authenticate('google')">Google</button>
+	<button id="appleBtn" onclick="authenticate('apple')">Apple</button>
+	<button id="facebookBtn" onclick="authenticate('facebook')">Facebook</button>
+
+	<div id="result"></div>
+
+	<script>
+		function authenticate(provider) {
+			window.webkit.messageHandlers.socialAuth.postMessage(provider);
+		}
+
+		window.addEventListener('external-social-auth', function(event) {
+			var details = event.detail;
+			var resultDiv = document.getElementById('result');
+			resultDiv.innerHTML = '<p>Access Token: ' + details.accessToken + '</p>' +
+			                      '<p>Provider: ' + details.provider + '</p>' +
+			                      '<p>Email: ' + details.email + '</p>';
+		});
+	</script>
+</body>
+</html>
